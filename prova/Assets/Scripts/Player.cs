@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
@@ -9,6 +10,7 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     private float timeCooldown = 0.5f;
     private float initialTime = 0.5f;
     [SerializeField] private Transform _shootPoint;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -19,6 +21,7 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     private void OnEnable()
     {
         inputActions.Enable();
+        
     }
     private void OnDisable()
     {
@@ -33,7 +36,6 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     public void GameOver()
     {
         inputActions.Disable();
-
     }
     public void OnAttack(InputAction.CallbackContext context)
     {
@@ -47,5 +49,25 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     public void OnMove(InputAction.CallbackContext context)
     {
         _rb.linearVelocity = context.ReadValue<Vector2>() * 4;
+    }
+
+    public void OnClick(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            AudioClip clip;
+            foreach (var kvp in AudioManager.Instance.clipList)
+            {
+
+            }
+            //AudioManager.Instance.clipList.ContainsKey(AudioClips.Yamete);
+         }
+        //    Debug.Log(context.ReadValue<Vector2>());
+        Debug.Log(Camera.main.ScreenToWorldPoint(context.ReadValue<Vector2>()));
+
+        //Ray ray = Camera.main.ScreenPointToRay(context.ReadValue<Vector2>());
+        //if (Physics.Raycast(ray, ))
+        Ray ray;
+        Vector3 origin = Input.mousePosition;
     }
 }

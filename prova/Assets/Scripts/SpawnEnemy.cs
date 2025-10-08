@@ -45,6 +45,7 @@ public class SpawnEnemy : MonoBehaviour
         GameObject go = EnemiesStack.Pop();
         go.SetActive(true);
         go.transform.position = transform.position;
+        go.transform.rotation = Quaternion.identity;
         go.GetComponent<Rigidbody2D>().linearVelocityX = 4;
         return go;
         
