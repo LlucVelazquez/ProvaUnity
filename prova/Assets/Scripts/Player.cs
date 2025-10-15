@@ -55,19 +55,32 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     {
         if (context.performed)
         {
-            AudioClip clip;
-            foreach (var kvp in AudioManager.Instance.clipList)
+            Vector3 clickPoint = Camera.main.ScreenToWorldPoint(context.ReadValue<Vector2>());
+            RaycastHit2D hit = Physics2D.Raycast(clickPoint, Vector3.forward, 12f);
+            if (hit)
             {
-
+                AudioClip clip = null;
+                foreach (var kvp in AudioManager.Instance.clipList)
+                {
+                    if (AudioManager.Instance.clipList.ContainsKey(AudioClips.Yamete))
+                        clip = kvp.Value;
+                }
+                AudioSource aSource = GetComponent<AudioSource>();
+                if (clip != null)
+                {
+                    aSource.clip = clip;
+                }
+                aSource.Play();
             }
+            
             //AudioManager.Instance.clipList.ContainsKey(AudioClips.Yamete);
          }
         //    Debug.Log(context.ReadValue<Vector2>());
-        Debug.Log(Camera.main.ScreenToWorldPoint(context.ReadValue<Vector2>()));
+        /*Debug.Log(Camera.main.ScreenToWorldPoint(context.ReadValue<Vector2>()));
 
         //Ray ray = Camera.main.ScreenPointToRay(context.ReadValue<Vector2>());
         //if (Physics.Raycast(ray, ))
         Ray ray;
-        Vector3 origin = Input.mousePosition;
+        Vector3 origin = Input.mousePosition;*/
     }
 }
